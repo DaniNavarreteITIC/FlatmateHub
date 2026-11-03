@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Flatmate Hub</string>
+    <string name="email_hint">Correo electrónico</string>
+    <string name="password_hint">Contraseña</string>
+    <string name="btn_login">Iniciar sesión</string>
+    <string name="no_account">No tienes cuenta?</string>
 </resources>
