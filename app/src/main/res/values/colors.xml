@@ -3,9 +3,18 @@
     <color name="primary">#729B79</color>
     <color name="primary_dark">#56775C</color>
     <color name="secondary">#6C8EAD</color>
+    <color name="secondary_dark">#4A6B8A</color>
     <color name="accent">#E9C46A</color>
     <color name="app_background">#F8F9FA</color>
     <color name="card_background">#FFFFFF</color>
     <color name="text_primary">#2B2D42</color>
     <color name="text_secondary">#6C757D</color>
+    <color name="error">#B00020</color>
+    <color name="success">#4CAF50</color>
+    <color name="on_primary">#FFFFFF</color>
+    <color name="on_secondary">#FFFFFF</color>
+    <color name="on_accent">#2B2D42</color>
+    <color name="outline">#E0E0E0</color>
+    <color name="fons">#F8F9FA</color>
+    <color name="black">#000000</color>
 </resources>
