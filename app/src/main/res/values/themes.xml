@@ -2,9 +2,15 @@
     <style name="Base.Theme.FlatmateHub" parent="Theme.Material3.DayNight.NoActionBar">
     </style>
 
-    <style name="Theme.FlatmateHub" parent="Base.Theme.FlatmateHub" />
-    <style name="EstiloImagenCircular" parent="">
-        <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">20%</item>
+    <style name="Theme.FlatmateHub" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryVariant">@color/primary_dark</item>
+        <item name="colorOnPrimary">@color/card_background</item>
+        <item name="colorSecondary">@color/secondary</item>
+        <item name="android:windowBackground">@color/app_background</item>
+        <style name="EstiloImagenCircular" parent="">
+            <item name="cornerFamily">rounded</item>
+            <item name="cornerSize">20%</item>
+        </style>
     </style>
 </resources>
