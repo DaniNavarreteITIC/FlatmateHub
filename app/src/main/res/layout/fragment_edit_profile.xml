@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="24dp"
+    android:background="@color/app_background">
+    <ImageView
+        android:id="@+id/btn_back_edit"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:padding="12dp"
+        android:src="@drawable/ic_arrow_back"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:focusable="true"
+        android:contentDescription="@string/btn_back_edit"
+        app:tint="@color/primary_dark"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_edit_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="@string/edit_name_title"
+        android:textSize="22sp"
+        android:textColor="@color/primary_dark"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="@id/btn_back_edit"
+        app:layout_constraintBottom_toBottomOf="@id/btn_back_edit"
+        app:layout_constraintStart_toEndOf="@id/btn_back_edit"
+        app:layout_constraintEnd_toEndOf="parent" />
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_edit_name"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:hint="@string/edit_name_hint"
+        app:layout_constraintMaxWidth="488dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_edit_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_edit_name_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName" />
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_save_changes"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:minHeight="56dp"
+        android:text="@string/btn_save_changes"
+        app:backgroundTint="@color/primary_dark"
+        app:layout_constraintTop_toBottomOf="@id/til_edit_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:elevation="6dp"
+        android:stateListAnimator="@null"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
