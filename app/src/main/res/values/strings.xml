@@ -1,7 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Flatmate Hub</string>
+    <string name="logo_desc">Logotipo de Flatmate Hub mostrando una casa con dos personas y un símbolo de euro</string>
+    <string name="login_title">Iniciar Sesión</string>
     <string name="email_hint">Correo electrónico</string>
     <string name="password_hint">Contraseña</string>
-    <string name="btn_login">Iniciar sesión</string>
-    <string name="no_account">No tienes cuenta?</string>
+    <string name="btn_login">Entrar</string>
+    <string name="btn_go_register">¿No tienes cuenta? Regístrate</string>
+    <string name="register_title">Crear Cuenta</string>
+    <string name="name_hint">Nombre</string>
+    <string name="surname_hint">Apellidos</string>
+    <string name="phone_hint">Teléfono</string>
+    <string name="password_repeat_hint">Repetir Contraseña</string>
+    <string name="btn_do_register">Registrarse</string>
+    <string name="btn_back_login">¿Ya tienes cuenta? Inicia sesión</string>
+    <string name="tut_tasks_title">Tareas del Hogar</string>
+    <string name="tut_tasks_desc">Asigna y reparte las tareas de limpieza fácilmente entre todos los compañeros.</string>
+    <string name="btn_next">Siguiente</string>
+    <string name="tut_expenses_title">Gastos Compartidos</string>
+    <string name="tut_expenses_desc">Lleva el control exacto de las finanzas del piso y de quién ha pagado qué.</string>
+
+    <string name="tut_ready_title">Todo listo</string>
+    <string name="tut_ready_desc">La app está adaptada para que todos puedan usarla sin complicaciones. ¡Vamos a crear tu piso!</string>
+    <string name="btn_start">Empezar</string>
+
+    <string name="welcome_title">¡Bienvenido a Flatmate Hub!</string>
+    <string name="btn_create_flat">Crear un Nuevo Piso</string>
+    <string name="btn_join_flat">Unirse con Código</string>
 </resources>
