@@ -1,7 +1,24 @@
 <resources>
     <string name="app_name">Flatmate Hub</string>
-    <string name="email_hint">Correo electrónico</string>
-    <string name="password_hint">Contraseña</string>
-    <string name="btn_login">Iniciar sesión</string>
-    <string name="no_account">No tienes cuenta?</string>
+    <string name="logo_desc">Logotipo de Flatmate Hub</string>
+
+    <string name="create_flat_title">Crear un Nuevo Piso</string>
+    <string name="flat_name_hint">Nombre del Piso (Ej. Piso Balmes)</string>
+    <string name="btn_create_flat">Crear Piso</string>
+
+    <string name="join_flat_title">Unirse con Código</string>
+    <string name="join_flat_desc">Introduce el código que te ha facilitado tu compañero de piso.</string>
+    <string name="flat_code_hint">Código del piso (Ej: A4B9X)</string>
+    <string name="btn_join_flat">Unirse al Piso</string>
+
+    <string name="title_main">Mi Piso</string>
+    <string name="filter_all">Todos</string>
+    <string name="filter_tasks">Tareas</string>
+    <string name="filter_expenses">Gastos</string>
+
+    <string name="preferences_title">Preferencias</string>
+    <string name="pref_edit_profile">Editar Perfil</string>
+    <string name="pref_change_flat">Cambiar de Piso</string>
+    <string name="pref_dark_mode">Modo Oscuro</string>
+    <string name="logout">Cerrar Sesión</string>
 </resources>
