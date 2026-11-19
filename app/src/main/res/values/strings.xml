@@ -61,4 +61,26 @@
     <string name="edit_flat_name_hint">Nombre del piso</string>
     <string name="users_title">Compañeros de Piso</string>
     <string name="cont_des_preference">Cerrar menú lateral</string>
+
+    <string name="add_item_title">Nueva Tarea o Gasto</string>
+    <string name="edit_item_title">Editar Tarea o Gasto</string>
+    <string name="item_type_label">Tipo de elemento</string>
+    <string name="item_type_task">Tarea</string>
+    <string name="item_type_expense">Gasto</string>
+    <string name="item_title_hint">Título (Ej. Limpiar cocina o Compra Mercadona)</string>
+    <string name="item_desc_hint">Descripción o importe (€)</string>
+    <string name="item_assignee_hint">Compañero asignado</string>
+    <string name="item_date_hint">Fecha límite</string>
+    <string name="btn_save_item">Guardar</string>
+    <string name="btn_delete_item">Eliminar elemento</string>
+    <string name="desc_add_item">Añadir nueva tarea o gasto</string>
+    <string name="desc_delete_item">Eliminar esta tarea o gasto</string>
+    <string name="desc_back">Volver atrás</string>
+    <string name="desc_open_menu">Abrir menú lateral</string>
+    <string name="desc_task_icon">Icono de tarea pendiente</string>
+    <string name="desc_user_avatar">Foto de perfil del compañero</string>
+    <string name="sample_task_title">Limpiar la cocina</string>
+    <string name="sample_task_desc">Pasar fregona y limpiar encimera</string>
+    <string name="sample_task_assignee">Alex</string>
+    <string name="btn_add_short">Añadir</string>
 </resources>
