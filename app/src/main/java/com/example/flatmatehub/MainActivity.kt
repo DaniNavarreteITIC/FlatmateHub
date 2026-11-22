@@ -3,42 +3,49 @@ package com.example.flatmatehub
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
+import android.view.Gravity
+import android.view.View
+import android.view.ViewGroup
+import android.widget.FrameLayout
+import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.chip.Chip
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.navigation.NavigationView
 
 /**
  * Activitat principal de Flatmate Hub després d'iniciar sessió i accedir a un pis.
- * Gestiona la capçalera de benvinguda, el menú lateral ([DrawerLayout]), els filtres
- * per categoria (Tots, Tasques, Despeses) i el llistat dinàmic d'elements ([RecyclerView]).
+ * Integra la vista principal (`fragment_main_home.xml`) amb el menú lateral
+ * (`fragment_navigation_drawer.xml`), gestiona els filtres per categoria (Tots, Tasques, Despeses)
+ * i administra el llistat dinàmic d'elements ([RecyclerView]).
  */
 class MainActivity : AppCompatActivity() {
 
     private lateinit var drawerLayout: DrawerLayout
+    private lateinit var homeView: View
+    private lateinit var drawerView: View
     private lateinit var adapter: ItemPisoAdapter
-    private var filtroActual: TipoItem? = null // null = Todos
+    private var filtroActual: TipoItem? = null // null = Tots
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        configurarToolbarYDrawer()
+        montarInterfazConDrawer()
         configurarCabeceraUsuario()
+        configurarMenuLateral()
         configurarFiltros()
         configurarRecyclerView()
 
-        // Botón flotante + -> abre pantalla para crear tarea o gasto
-        findViewById<FloatingActionButton>(R.id.fabCrearItem).setOnClickListener {
+        // Botó flotant + -> obre la pantalla per crear una tasca o despesa
+        homeView.findViewById<FloatingActionButton>(R.id.fab_add_item).setOnClickListener {
             startActivity(Intent(this, CreateItemActivity::class.java))
         }
     }
@@ -48,95 +55,118 @@ class MainActivity : AppCompatActivity() {
         configurarCabeceraUsuario()
         aplicarFiltroYRefrescar()
     }
+
     /**
-     * Mostra a la capçalera la salutació personalitzada de l'usuari actiu juntament amb el
-     * nom i el codi únic del pis actual emmagatzemats a [FlatmateRepository].
+     * Infla `fragment_main_home.xml` i `fragment_navigation_drawer.xml` dins d'un [DrawerLayout]
+     * acoblat al contenidor arrel `R.id.main` de `activity_main.xml`.
+     */
+    private fun montarInterfazConDrawer() {
+        val rootContainer = findViewById<FrameLayout>(R.id.main)
+        drawerLayout = DrawerLayout(this).apply {
+            layoutParams = ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+            )
+        }
+
+        homeView = layoutInflater.inflate(R.layout.fragment_main_home, drawerLayout, false)
+        drawerView = layoutInflater.inflate(R.layout.fragment_navigation_drawer, drawerLayout, false)
+
+        val drawerParams = DrawerLayout.LayoutParams(
+            drawerView.layoutParams?.width ?: ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.MATCH_PARENT
+        ).apply { gravity = GravityCompat.START }
+
+        drawerLayout.addView(homeView)
+        drawerLayout.addView(drawerView, drawerParams)
+        rootContainer.addView(drawerLayout)
+    }
+
+    /**
+     * Mostra a la capçalera el nom i el codi únic del pis actiu emmagatzemat a [FlatmateRepository].
      */
     private fun configurarCabeceraUsuario() {
-        val nombreUser = FlatmateRepository.usuarioActual?.nombre ?: "Compañero"
-        val nombrePiso = FlatmateRepository.pisoActual?.nombre ?: "Sin piso"
+        val nombrePiso = FlatmateRepository.pisoActual?.nombre ?: "Flatmate Hub"
         val codigoPiso = FlatmateRepository.pisoActual?.codigo ?: ""
+        val tituloCabecera = if (codigoPiso.isNotEmpty()) "$nombrePiso ($codigoPiso)" else nombrePiso
 
-        findViewById<TextView>(R.id.tvSaludoUsuario)?.text = "¡Hola, $nombreUser!"
-        findViewById<TextView>(R.id.tvNombrePisoActual)?.text = "$nombrePiso ($codigoPiso)"
+        homeView.findViewById<TextView>(R.id.tv_main_title)?.text = tituloCabecera
     }
 
     /**
-     * Configura la [Toolbar] superior i el [NavigationView] lateral, enllaçant les tres
-     * opcions del menú hamburguesa: Preferències, Canviar Pis i Tancar Sessió.
+     * Configura l'obertura i tancament del calaix lateral i enllaça els tres botons de navegació:
+     * Preferències, Canviar Pis i Tancar Sessió.
      */
-    private fun configurarToolbarYDrawer() {
-        val toolbar = findViewById<Toolbar>(R.id.toolbarMain)
-        setSupportActionBar(toolbar)
+    private fun configurarMenuLateral() {
+        homeView.findViewById<ImageButton>(R.id.btn_open_menu).setOnClickListener {
+            drawerLayout.openDrawer(GravityCompat.START)
+        }
 
-        drawerLayout = findViewById(R.id.drawerLayout)
-        val navView = findViewById<NavigationView>(R.id.navigationView)
-
-        val toggle = ActionBarDrawerToggle(
-            this, drawerLayout, toolbar,
-            R.string.navigation_drawer_open,
-            R.string.navigation_drawer_close
-        )
-        drawerLayout.addDrawerListener(toggle)
-        toggle.syncState()
-
-        navView.setNavigationItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.nav_preferencias -> {
-                    startActivity(Intent(this, SettingsActivity::class.java))
-                }
-                R.id.nav_cambiar_piso -> {
-                    startActivity(Intent(this, WelcomeFloorActivity::class.java))
-                }
-                R.id.nav_cerrar_sesion -> {
-                    FlatmateRepository.cerrarSesion()
-                    Toast.makeText(this, "Sesión cerrada", Toast.LENGTH_SHORT).show()
-                    val intent = Intent(this, LoginActivity::class.java).apply {
-                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                    }
-                    startActivity(intent)
-                    finish()
-                }
-            }
+        drawerView.findViewById<ImageButton>(R.id.btn_close_menu).setOnClickListener {
             drawerLayout.closeDrawer(GravityCompat.START)
-            true
+        }
+
+        drawerView.findViewById<MaterialButton>(R.id.btn_menu_preferences).setOnClickListener {
+            drawerLayout.closeDrawer(GravityCompat.START)
+            startActivity(Intent(this, SettingsActivity::class.java))
+        }
+
+        drawerView.findViewById<MaterialButton>(R.id.btn_menu_change_flat).setOnClickListener {
+            drawerLayout.closeDrawer(GravityCompat.START)
+            val intent = Intent(this, BienvenidaFlatmate::class.java).apply {
+                putExtra("SALTAR_TUTORIAL", true)
+            }
+            startActivity(intent)
+        }
+
+        drawerView.findViewById<MaterialButton>(R.id.btn_menu_logout).setOnClickListener {
+            drawerLayout.closeDrawer(GravityCompat.START)
+            FlatmateRepository.cerrarSesion()
+            Toast.makeText(this, "Sesión cerrada", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, AuthActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            }
+            startActivity(intent)
+            finish()
         }
     }
+
     /**
-     * Configura els botons de filtre (Tots, Tasques i Despeses) per actualitzar el criteri
+     * Configura els [Chip] de filtre (Tots, Tasques i Despeses) per actualitzar el criteri
      * de visualització del llistat principal.
      */
     private fun configurarFiltros() {
-        val btnTodos = findViewById<Button>(R.id.btnFiltroTodos)
-        val btnTareas = findViewById<Button>(R.id.btnFiltroTareas)
-        val btnGastos = findViewById<Button>(R.id.btnFiltroGastos)
+        val chipTodos = homeView.findViewById<Chip>(R.id.chip_filter_all)
+        val chipTareas = homeView.findViewById<Chip>(R.id.chip_filter_tasks)
+        val chipGastos = homeView.findViewById<Chip>(R.id.chip_filter_expenses)
 
-        btnTodos.setOnClickListener {
+        chipTodos.setOnClickListener {
             filtroActual = null
             aplicarFiltroYRefrescar()
         }
-        btnTareas.setOnClickListener {
+        chipTareas.setOnClickListener {
             filtroActual = TipoItem.TAREA
             aplicarFiltroYRefrescar()
         }
-        btnGastos.setOnClickListener {
+        chipGastos.setOnClickListener {
             filtroActual = TipoItem.GASTO
             aplicarFiltroYRefrescar()
         }
     }
+
     /**
      * Inicialitza el [RecyclerView] amb el seu [ItemPisoAdapter] i defineix les accions d'edició,
      * canvi d'estat i eliminació amb confirmació, registrant cada operació mitjançant
      * [Log] i notificacions [Toast].
      */
     private fun configurarRecyclerView() {
-        val rv = findViewById<RecyclerView>(R.id.rvTareasGastos)
+        val rv = homeView.findViewById<RecyclerView>(R.id.recycler_view_home)
         rv.layoutManager = LinearLayoutManager(this)
 
         adapter = ItemPisoAdapter(
             listaVisible = mutableListOf(),
+            // Obre CreateItemActivity en mode edició passant l'ID de l'element
             onEditar = { item ->
-                // Abre CreateItemActivity en modo edición pasando el ID del elemento
                 val intent = Intent(this, CreateItemActivity::class.java).apply {
                     putExtra("ITEM_ID", item.id)
                 }
@@ -166,6 +196,7 @@ class MainActivity : AppCompatActivity() {
         rv.adapter = adapter
         aplicarFiltroYRefrescar()
     }
+
     /**
      * Filtra els elements del pis actiu segons la categoria seleccionada i actualitza
      * el contingut de l'[ItemPisoAdapter].

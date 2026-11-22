@@ -30,10 +30,10 @@ class ItemPisoAdapter(
      * @param view Vista arrel inflada a partir del layout `item_flatmate_row.xml`.
      */
     inner class ItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val tvTitulo: TextView = view.findViewById(R.id.tvTituloItem)
-        val tvDetalle: TextView = view.findViewById(R.id.tvSubtituloItem)
-        val ivIcono: ImageView = view.findViewById(R.id.ivIconoTipo)
-        val btnEliminar: ImageButton = view.findViewById(R.id.btnEliminarItem)
+        val tvTitulo: TextView = view.findViewById(R.id.tv_task_title)
+        val tvDetalle: TextView = view.findViewById(R.id.tv_task_assignee)
+        val ivIcono: ImageView = view.findViewById(R.id.iv_task_icon)
+        val btnEliminar: ImageButton = view.findViewById(R.id.btn_delete_task_row)
         /**
          * Assigna les dades d'un [ItemPiso] als elements visuals de la targeta,
          * aplica el ratllat si la tasca o despesa està completada i configura els esdeveniments tàctils.
@@ -54,26 +54,26 @@ class ItemPisoAdapter(
             tvDetalle.text = "Asignado: ${item.asignadoA} · ${item.fechaLimite}$textoImporte"
 
             ivIcono.setImageResource(
-                if (item.tipo == TipoItem.TAREA) R.drawable.ic_tarea else R.drawable.ic_euro
+                if (item.tipo == TipoItem.TAREA) android.R.drawable.ic_menu_agenda else android.R.drawable.ic_menu_sort_by_size
             )
 
-            // Pulsación corta: editar elemento
+            // Pulsació curta: edita l'element
             itemView.setOnClickListener { onEditar(item) }
 
-            // Pulsación larga: marcar como completado/pagado
+            // Pulsació llarga: marca com a completat o pagat
             itemView.setOnLongClickListener {
                 onToggleCompletado(item)
                 true
             }
 
-            // Botón papelera: eliminar elemento
+            // Botó paperera: elimina l'element
             btnEliminar.setOnClickListener { onEliminar(item) }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_flatmate_row, parent, false)
+            .inflate(R.layout.item_view, parent, false)
         return ItemViewHolder(view)
     }
 
